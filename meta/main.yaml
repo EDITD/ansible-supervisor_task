@@ -2,7 +2,7 @@
 
 galaxy_info:
   author: EDITD devs
-  description: A role for creating supervisor tasks.
+  description: A role for creating supervisor tasks
   company: EDITD
   license: MIT
   min_ansible_version: 1.2
