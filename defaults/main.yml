@@ -3,3 +3,4 @@ supervisorctl_command: "supervisorctl"
 redirect_stderr: "true"
 autorestart: "true"
 autostart: "true"
+env_vars: {}
