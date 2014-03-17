@@ -4,3 +4,4 @@ redirect_stderr: "true"
 autorestart: "true"
 autostart: "true"
 env_vars: {}
+numprocs: 1

@@ -5,6 +5,7 @@ redirect_stderr={{ redirect_stderr }}
 autostart={{ autostart }}
 autorestart={{ autorestart }}
 user={{ user }}
+numprocs={{ numprocs }}
 {% if env_vars|length > 0 %}
 environment={% for name, value in env_vars.iteritems() %}{{ name }}="{{ value }}"{% if not loop.last %},{% endif %}{% endfor %}
 {% endif %}
