@@ -1,0 +1,4 @@
+---
+- name: update supervisord
+  command: "{{ supervisorctl_command }} update {{ name }}"
+  sudo: yes

@@ -4,12 +4,10 @@
 
 - name: installing task {{ name }}
   template: src=task.conf.j2 dest={{ supervisor_config_dir }}/{{ name }}.conf
-  register: supervisor_task_conf
+  notify:
+    - update supervisord
   sudo: yes
 
-- name: updating conf for {{ name }}
-  when: supervisor_task_conf|changed
-  shell: >
-    {{ supervisorctl_command }} stop {{ name }}
-    {{ supervisorctl_command }} update
+- name: restart task {{ name }}
+  command: "{{ supervisorctl_command }} restart {{ name }}:*"
   sudo: yes
