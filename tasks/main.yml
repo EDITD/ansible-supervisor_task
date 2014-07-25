@@ -35,3 +35,20 @@
   shell: "kill -s {{ restart_signal }} `cat {{ restart_pidfile }}`"
   when: 'restart_signal and restart_pidfile and state == "present"'
   become: yes
+
+- name: configure main supervisor
+  template: src=supervisord.conf.j2 dest={{ supervisor_dir }}/supervisord.conf
+  tags: supervisor
+  sudo: yes    
+    
+#TODO use https://github.com/Supervisor/initscripts for all architectures
+- name: Copy the supervisord init script
+  copy: src=supervisord-{{ ansible_distribution }}-{{ ansible_architecture }}.sh dest=/etc/init.d/supervisord mode=0755
+  tags: configure
+  sudo: yes   
+
+- name: Start the supervisord service
+  service: name=supervisord state=started enabled=true
+  tags: service  
+
+- debug: msg="See GUI at http://{{ inventory_hostname }}:{{ supervisor_inet_http_server }}/"
