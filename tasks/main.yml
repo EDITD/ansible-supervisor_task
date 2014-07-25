@@ -44,11 +44,15 @@
 #TODO use https://github.com/Supervisor/initscripts for all architectures
 - name: Copy the supervisord init script
   copy: src=supervisord-{{ ansible_distribution }}-{{ ansible_architecture }}.sh dest=/etc/init.d/supervisord mode=0755
+  when: supervisor_gui_enabled   
   tags: configure
   sudo: yes   
 
 - name: Start the supervisord service
   service: name=supervisord state=started enabled=true
+  when: supervisor_gui_enabled   
   tags: service  
 
 - debug: msg="See GUI at http://{{ inventory_hostname }}:{{ supervisor_inet_http_server }}/"
+  when: supervisor_gui_enabled 
+  

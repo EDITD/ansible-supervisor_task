@@ -1,4 +1,5 @@
 #! /bin/sh
+# {{ ansible_managed }}
 #
 # Downloaded from:
 # http://bazaar.launchpad.net/~ubuntu-branches/ubuntu/trusty/supervisor/trusty/view/head:/debian/supervisor.init
