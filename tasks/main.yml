@@ -4,8 +4,10 @@
 
 - name: installing task {{ name }}
   template: src=task.conf.j2 dest={{ supervisor_config_dir }}/{{ name }}.conf
-  notify:
-    - update supervisord
+  sudo: yes
+
+- name: update supervisor
+  command: "{{ supervisorctl_command }} update"
   sudo: yes
 
 - name: restart task {{ name }}
