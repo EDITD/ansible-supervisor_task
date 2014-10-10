@@ -17,6 +17,7 @@ A role for creating supervisor tasks.
       command: python -m SimpleHTTPServer
       directory: /opt/web
       user: ubuntu
+      stopsignal: HUP
 ```
 
 ## License
