@@ -8,8 +8,8 @@
     - supervisor
   become: yes
 
-- name: Create {{ directory }} directory
-  file: path={{ directory }} state=directory
+- name: Create {{ supervisor_config_dir }} directory
+  file: path={{ supervisor_config_dir }} state=directory
   become: yes
   
 - name: Installing task {{ name }}
