@@ -2,6 +2,12 @@
 - hosts: all
   sudo: true
   roles:
-    - { role: ./ }
+    - { role: ./,
+        name: webserver,
+        command: python -m SimpleHTTPServer,
+        directory: /opt/web,
+        user: root,
+        stopsignal: HUP
+    }
 
 #- include: ./integration-tests.yml
