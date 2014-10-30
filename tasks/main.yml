@@ -40,7 +40,7 @@
   when: 'restart_signal and restart_pidfile and state == "present"'
   become: yes
 
-- name: configure main supervisor
+- name: Configure main supervisor
   template: src=supervisord.conf.j2 dest={{ supervisor_dir }}/supervisord.conf
   tags: supervisor
   become: yes    
