@@ -1,5 +1,14 @@
+# global/supervisord config
+
+# Taken from https://launchpad.net/ubuntu/+source/supervisor/
+supervisor_deb_file: "supervisor_3.2.0-2_all.deb"
+
 supervisor_config_dir: "/etc/supervisor/conf.d/"
 supervisorctl_command: "supervisorctl"
+
+
+# supervisor tasks config
+
 redirect_stderr: "true"
 autorestart: "true"
 autostart: "true"
