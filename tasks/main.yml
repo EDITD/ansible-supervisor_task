@@ -33,4 +33,10 @@
 
 - name: Restart task {{ name }}
   command: "{{ supervisorctl_command }} restart {{ name }}:*"
+  when: restart_task
+  sudo: yes
+
+- name: Send signal to task {{ name }}
+  command: "{{ supervisorctl_command }} signal {{ signal_task }} {{ name }}:*"
+  when: signal_task is defined
   sudo: yes
