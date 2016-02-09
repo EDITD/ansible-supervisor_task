@@ -14,7 +14,7 @@
   failed_when: no  # so that we don't fail/stop here when supervisor is not installed
 
 - set_fact:
-    install_supervisor={{ not supervisor_package_installed or supervisor_version not in supervisor_package_installed.stdout }}
+    install_supervisor={{ supervisor_version not in supervisor_package_installed.stdout }}
 
 - name: Download supervisor package
   raw: wget https://launchpad.net/ubuntu/+archive/primary/+files/{{ supervisor_deb_file }} -O {{ supervisor_deb_file_location }}
