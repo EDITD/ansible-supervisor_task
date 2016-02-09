@@ -2,6 +2,8 @@
 
 # Taken from https://launchpad.net/ubuntu/+source/supervisor/
 supervisor_deb_file: "supervisor_3.2.0-2_all.deb"
+supervisor_deb_file_location: "/tmp/{{ supervisor_deb_file }}"
+supervisor_version: "3.2.0"
 
 supervisor_config_dir: "/etc/supervisor/conf.d/"
 supervisorctl_command: "supervisorctl"

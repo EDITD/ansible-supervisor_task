@@ -8,12 +8,28 @@
     - python-meld3
   sudo: yes
 
+- name: Check supervisor package installed (if any)
+  shell: "dpkg-query --showformat='${Version}' --show supervisor"
+  register: supervisor_package_installed
+  failed_when: no  # so that we don't fail/stop here when supervisor is not installed
+
+- set_fact:
+    install_supervisor={{ not supervisor_package_installed or supervisor_version not in supervisor_package_installed.stdout }}
+
 - name: Download supervisor package
-  raw: find /tmp/{{ supervisor_deb_file }} || wget https://launchpad.net/ubuntu/+archive/primary/+files/{{ supervisor_deb_file }} -O /tmp/{{ supervisor_deb_file }}
+  raw: wget https://launchpad.net/ubuntu/+archive/primary/+files/{{ supervisor_deb_file }} -O {{ supervisor_deb_file_location }}
   sudo: yes
+  when: install_supervisor
 
 - name: Install supervisor package
   apt: deb=/tmp/{{ supervisor_deb_file }} state=present
+  sudo: yes
+  when: install_supervisor
+
+- name: Delete supervisor .deb file
+  file:
+    path={{ supervisor_deb_file_location }}
+    state=absent
   sudo: yes
 
 - name: Ensure backwards compatibility for config location
