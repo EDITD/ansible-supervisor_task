@@ -6,6 +6,8 @@ supervisor_deb_file: "supervisor_3.2.0-2_all.deb"
 supervisor_config_dir: "/etc/supervisor/conf.d/"
 supervisorctl_command: "supervisorctl"
 
+restart_task: yes
+
 
 # supervisor tasks config
 
