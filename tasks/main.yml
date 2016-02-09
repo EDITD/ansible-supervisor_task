@@ -22,7 +22,7 @@
   when: install_supervisor
 
 - name: Install supervisor package
-  apt: deb=/tmp/{{ supervisor_deb_file }} state=present
+  apt: deb={{ supervisor_deb_file_location }} state=present
   sudo: yes
   when: install_supervisor
 
