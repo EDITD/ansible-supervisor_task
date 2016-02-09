@@ -1,15 +1,58 @@
-- name: install supervisor
-  apt: pkg=supervisor state=present update_cache=true
+- name: Install dependencies
+  apt:
+    name={{ item }}
+    state=present
+    update_cache=yes
+    cache_valid_time=3600
+  with_items:
+    - python-meld3
   sudo: yes
 
-- name: installing task {{ name }}
+- name: Check supervisor package installed (if any)
+  shell: "dpkg-query --showformat='${Version}' --show supervisor"
+  register: supervisor_package_installed
+  failed_when: no  # so that we don't fail/stop here when supervisor is not installed
+
+- set_fact:
+    install_supervisor={{ supervisor_version not in supervisor_package_installed.stdout }}
+
+- name: Download supervisor package
+  raw: wget https://launchpad.net/ubuntu/+archive/primary/+files/{{ supervisor_deb_file }} -O {{ supervisor_deb_file_location }}
+  sudo: yes
+  when: install_supervisor
+
+- name: Install supervisor package
+  apt: deb={{ supervisor_deb_file_location }} state=present
+  sudo: yes
+  when: install_supervisor
+
+- name: Delete supervisor .deb file
+  file:
+    path={{ supervisor_deb_file_location }}
+    state=absent
+  sudo: yes
+
+- name: Ensure backwards compatibility for config location
+  file:
+    src=/etc/supervisor/supervisord.conf
+    dest=/etc/supervisord.conf
+    state=link
+  sudo: yes
+
+- name: Installing task {{ name }}
   template: src=task.conf.j2 dest={{ supervisor_config_dir }}/{{ name }}.conf
   sudo: yes
 
-- name: update supervisor
+- name: Update supervisor
   command: "{{ supervisorctl_command }} update"
   sudo: yes
 
-- name: restart task {{ name }}
+- name: Restart task {{ name }}
   command: "{{ supervisorctl_command }} restart {{ name }}:*"
+  when: restart_task
+  sudo: yes
+
+- name: Send signal to task {{ name }}
+  command: "{{ supervisorctl_command }} signal {{ signal_task }} {{ name }}:*"
+  when: signal_task is defined
   sudo: yes
