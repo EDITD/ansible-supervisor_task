@@ -13,6 +13,8 @@
   register: supervisor_package_installed
   failed_when: no  # so that we don't fail/stop here when supervisor is not installed
 
+- include_vars: "{{ ansible_distribution_version }}.yml"
+
 - set_fact:
     install_supervisor={{ supervisor_version not in supervisor_package_installed.stdout }}
 
