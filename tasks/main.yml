@@ -51,10 +51,10 @@
 
 - name: Restart task {{ name }}
   command: "{{ supervisorctl_command }} restart {{ name }}:*"
-  when: restart_task
+  when: ansible_distribution_version == "12.04" or restart_task
   sudo: yes
 
-- name: Send signal to task {{ name }}
+- name: Send {{ signal_task }} signal to task {{ name }}
   command: "{{ supervisorctl_command }} signal {{ signal_task }} {{ name }}:*"
-  when: signal_task is defined
+  when: ansible_distribution_version != "12.04" and signal_task is defined
   sudo: yes
