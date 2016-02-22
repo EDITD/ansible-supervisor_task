@@ -2,6 +2,8 @@
 
 A role for creating supervisor tasks.
 
+**NOTE**: This role depends on facts being gathered and will fail when `gather_facts` is set to false/no.
+
 
 ## Actions
 
