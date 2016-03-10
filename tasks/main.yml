@@ -28,6 +28,11 @@
   sudo: yes
   when: install_supervisor
 
+# Sometimes the service refuses to run on its own after installing the package
+- name: Make sure supervisor is running
+  service: name=supervisor state=started
+  sudo: yes
+
 - name: Delete supervisor .deb file
   file:
     path={{ supervisor_deb_file_location }}
