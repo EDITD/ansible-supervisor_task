@@ -1,7 +1,5 @@
 # global/supervisord config
 
-supervisor_deb_file_location: "/tmp/{{ supervisor_deb_file }}"
-
 supervisor_config_dir: "/etc/supervisor/conf.d/"
 supervisorctl_command: "supervisorctl"
 
