@@ -6,44 +6,7 @@
     cache_valid_time=3600
   with_items:
     - python-meld3
-  sudo: yes
-
-- name: Check supervisor package installed (if any)
-  shell: "dpkg-query --showformat='${Version}' --show supervisor"
-  register: supervisor_package_installed
-  failed_when: no  # so that we don't fail/stop here when supervisor is not installed
-
-- include_vars: "{{ ansible_distribution_version }}.yml"
-
-- set_fact:
-    install_supervisor={{ supervisor_version not in supervisor_package_installed.stdout }}
-
-- name: Download supervisor package
-  raw: wget https://launchpad.net/ubuntu/+archive/primary/+files/{{ supervisor_deb_file }} -O {{ supervisor_deb_file_location }}
-  sudo: yes
-  when: install_supervisor
-
-- name: Install supervisor package
-  apt: deb={{ supervisor_deb_file_location }} state=present
-  sudo: yes
-  when: install_supervisor
-
-# Sometimes the service refuses to run on its own after installing the package
-- name: Make sure supervisor is running
-  service: name=supervisor state=started
-  sudo: yes
-
-- name: Delete supervisor .deb file
-  file:
-    path={{ supervisor_deb_file_location }}
-    state=absent
-  sudo: yes
-
-- name: Ensure backwards compatibility for config location
-  file:
-    src=/etc/supervisor/supervisord.conf
-    dest=/etc/supervisord.conf
-    state=link
+    - supervisor
   sudo: yes
 
 - name: Installing task {{ name }}
@@ -56,10 +19,5 @@
 
 - name: Restart task {{ name }}
   command: "{{ supervisorctl_command }} restart {{ name }}:*"
-  when: ansible_distribution_version == "12.04" or restart_task
-  sudo: yes
-
-- name: Send {{ signal_task }} signal to task {{ name }}
-  command: "{{ supervisorctl_command }} signal {{ signal_task }} {{ name }}:*"
-  when: ansible_distribution_version != "12.04" and signal_task is defined
+  when: restart_task
   sudo: yes
