@@ -12,6 +12,10 @@
   template: src=task.conf.j2 dest={{ supervisor_config_dir }}/{{ name }}.conf
   sudo: yes
 
+- name: Ensure supervisord is started
+  service: name=supervisor state=started
+  sudo: yes
+
 - name: Update supervisor
   command: "{{ supervisorctl_command }} update"
   sudo: yes
