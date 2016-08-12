@@ -35,6 +35,17 @@ By default, the role will restart the task on each run, which you could skip lik
       restart_task: no
 ```
 
+### Removing a task
+
+To ensure that a task is not present, you can use `state: absent`
+
+```
+  roles:
+    - role: EDITD.supervisor_task
+      name: webserver
+      state: absent
+```
+
 ## License
 
 MIT
