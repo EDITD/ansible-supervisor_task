@@ -30,3 +30,8 @@
   command: "{{ supervisorctl_command }} restart {{ name }}:*"
   when: '{{ restart_task and state == "present" }}'
   sudo: yes
+
+- name: Send restart signal to task {{ name }}
+  command: "kill -s {{ restart_signal }} `cat {{ restart_pidfile }}`"
+  when: '{{ restart_signal and restart_pidfile and state == "present" }}'
+  sudo: yes

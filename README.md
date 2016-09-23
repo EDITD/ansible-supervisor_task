@@ -35,6 +35,19 @@ By default, the role will restart the task on each run, which you could skip lik
       restart_task: no
 ```
 
+Or if you want to restart a uwsgi process gracefully you could do something like this:
+
+```
+roles:
+    - role: EDITD.supervisor_task
+      name: webserver
+      command: uwsgi --ini /path/to/you/conf
+      user: ubuntu
+      restart_task: no
+      restart_signal: HUP
+      restart_pidfile: /path/to/pid/file/defined/in/conf
+```
+
 ### Removing a task
 
 To ensure that a task is not present, you can use `state: absent`
