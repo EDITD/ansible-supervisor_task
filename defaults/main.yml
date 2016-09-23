@@ -4,6 +4,8 @@ supervisor_config_dir: "/etc/supervisor/conf.d/"
 supervisorctl_command: "supervisorctl"
 
 restart_task: yes
+restart_signal: null
+restart_pidfile: null
 
 
 # supervisor tasks config
