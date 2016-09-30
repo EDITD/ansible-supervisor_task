@@ -19,7 +19,7 @@
   when: '{{ state == "absent" }}'
 
 - name: Ensure supervisord is started
-  service: name=supervisor state=started
+  service: name=supervisor state=started enabled=yes
   sudo: yes
 
 - name: Update supervisor
