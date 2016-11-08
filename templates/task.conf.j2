@@ -7,7 +7,8 @@ autostart={{ autostart }}
 autorestart={{ autorestart }}
 user={{ user }}
 numprocs={{ numprocs }}
-environment={% if 'USER' not in env_vars %}USER="{{ user }}",{% endif %}{% if 'HOME' not in env_vars %}HOME="/home/{{ user }}",{% endif %}{% for name, value in env_vars.iteritems() %}{{ name }}="{{ value }}",{% endfor %}
 {% if stopsignal is defined %}
 stopsignal={{ stopsignal }}
 {% endif %}
+{# This must always be at the bottom, otherwise the line below will appear on the end of the environment line #}
+environment={% if 'USER' not in env_vars %}USER="{{ user }}",{% endif %}{% if 'HOME' not in env_vars %}HOME="/home/{{ user }}",{% endif %}{% for name, value in env_vars.iteritems() %}{{ name }}="{{ value }}",{% endfor %}
