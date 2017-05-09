@@ -11,12 +11,12 @@
 - name: Installing task {{ name }}
   template: src=task.conf.j2 dest={{ supervisor_config_dir }}/{{ name }}.conf
   become: yes
-  when: '{{ state == "present" }}'
+  when: 'state == "present"'
 
 - name: Removing task {{ name }}
   file: path={{ supervisor_config_dir }}/{{ name }}.conf state=absent
   become: yes
-  when: '{{ state == "absent" }}'
+  when: 'state == "absent"'
 
 - name: Ensure supervisord is started
   service: name=supervisor state=started enabled=yes
@@ -28,10 +28,10 @@
 
 - name: Restart task {{ name }}
   command: "{{ supervisorctl_command }} restart {{ name }}:*"
-  when: '{{ restart_task and state == "present" }}'
+  when: 'restart_task and state == "present"'
   become: yes
 
 - name: Send restart signal to task {{ name }}
   shell: "kill -s {{ restart_signal }} `cat {{ restart_pidfile }}`"
-  when: '{{ restart_signal and restart_pidfile and state == "present" }}'
+  when: 'restart_signal and restart_pidfile and state == "present"'
   become: yes
