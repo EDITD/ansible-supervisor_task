@@ -1,12 +1,16 @@
 # global/supervisord config
 
-supervisor_config_dir: "/etc/supervisor/conf.d/"
+supervisor_gui_enabled: yes                       # Enable module
+
+supervisor_inet_http_server: 9042
+supervisor_dir: "/etc/supervisor"
+
+supervisor_config_dir: "{{ supervisor_dir }}/conf.d/"
 supervisorctl_command: "supervisorctl"
 
 restart_task: yes
 restart_signal: null
 restart_pidfile: null
-
 
 # supervisor tasks config
 

@@ -8,6 +8,10 @@
     - supervisor
   become: yes
 
+- name: Create {{ supervisor_config_dir }} directory
+  file: path={{ supervisor_config_dir }} state=directory
+  become: yes
+  
 - name: Installing task {{ name }}
   template: src=task.conf.j2 dest={{ supervisor_config_dir }}/{{ name }}.conf
   become: yes
@@ -35,3 +39,23 @@
   shell: "kill -s {{ restart_signal }} `cat {{ restart_pidfile }}`"
   when: 'restart_signal and restart_pidfile and state == "present"'
   become: yes
+
+- name: Configure main supervisor
+  template: src=supervisord.conf.j2 dest={{ supervisor_dir }}/supervisord.conf
+  tags: supervisor
+  become: yes    
+    
+#TODO use https://github.com/Supervisor/initscripts for all architectures
+- name: Copy the supervisord init script
+  copy: src=supervisord-{{ ansible_distribution }}-{{ ansible_architecture }}.sh dest=/etc/init.d/supervisord mode=0755
+  when: supervisor_gui_enabled   
+  tags: configure
+  become: yes   
+
+- name: Start the supervisord service
+  service: name=supervisord state=started enabled=true
+  when: supervisor_gui_enabled   
+  tags: service  
+
+- debug: msg="See GUI at http://{{ inventory_hostname }}:{{ supervisor_inet_http_server }}/"
+  when: supervisor_gui_enabled 
