@@ -1,4 +1,4 @@
-[program:{{ name }}]
+[program:{{ program_name }}]
 command={{ command }}
 process_name={{ process_name }}
 directory={{ directory }}
@@ -14,4 +14,4 @@ stopsignal={{ stopsignal }}
 stopwaitsecs={{ stopwaitsecs }}
 {% endif %}
 {# This must always be at the bottom, otherwise the line below will appear on the end of the environment line #}
-environment={% if 'USER' not in env_vars %}USER="{{ user }}",{% endif %}{% if 'HOME' not in env_vars %}HOME="/home/{{ user }}",{% endif %}{% for name, value in env_vars.items() %}{{ name }}="{{ value }}",{% endfor %}
+environment={% if 'USER' not in env_vars %}USER="{{ user }}",{% endif %}{% if 'HOME' not in env_vars %}HOME="/home/{{ user }}",{% endif %}{% for variable_name, value in env_vars.items() %}{{ variable_name }}="{{ value }}",{% endfor %}
